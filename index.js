@@ -11,10 +11,12 @@ const relayServer = await createLibp2p({
 	addresses: {
 		listen: [
 			`/ip4/0.0.0.0/tcp/${port}/ws`, // Allows connections from anywhere
-			`/dns4/${railwayDomain}/tcp/${port}/ws`, // Allows clients to use Railway domain
+			`/dns4/${railwayDomain}/tcp/${port}/ws`, // Allows clients to use Railway domain,
+			`/ip4/0.0.0.0/udp/${port + 1}/webrtc-direct`,
+			`/ip4/${railwayDomain}/udp/${port + 1}/webrtc-direct`,
 		],
 	},
-	transports: [webSockets()],
+	transports: [webSockets(), webRTC],
 	connectionEncrypters: [noise()],
 	streamMuxers: [yamux()],
 	services: {
