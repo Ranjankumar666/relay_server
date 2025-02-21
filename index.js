@@ -5,6 +5,7 @@ import { createLibp2p } from 'libp2p';
 import { circuitRelayServer } from '@libp2p/circuit-relay-v2';
 import { webRTC } from '@libp2p/webrtc';
 import { identify } from '@libp2p/identify';
+import * as filters from '@libp2p/websockets/filters';
 
 const port = process.env.PORT || 8080;
 const railwayDomain = 'relayserver-production-adeb.up.railway.app'; // Replace with actual Railway domain
@@ -16,7 +17,11 @@ const relayServer = await createLibp2p({
 			`/dns4/${railwayDomain}/tcp/${port}/ws`, // Allows clients to use
 		],
 	},
-	transports: [webSockets(), webRTC()],
+	transports: [
+		webSockets({
+			filter: filters.all,
+		}),
+	],
 	connectionEncrypters: [noise()],
 	streamMuxers: [yamux()],
 	services: {
