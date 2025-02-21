@@ -3,6 +3,7 @@ import { webSockets } from '@libp2p/websockets';
 import { yamux } from '@chainsafe/libp2p-yamux';
 import { createLibp2p } from 'libp2p';
 import { circuitRelayServer } from '@libp2p/circuit-relay-v2';
+import { webRTC } from '@libp2p/webrtc';
 
 const port = process.env.PORT || 8080;
 const railwayDomain = 'relayserver-production-adeb.up.railway.app'; // Replace with actual Railway domain
@@ -16,7 +17,7 @@ const relayServer = await createLibp2p({
 			`/ip4/${railwayDomain}/udp/${port + 1}/webrtc-direct`,
 		],
 	},
-	transports: [webSockets(), webRTC],
+	transports: [webSockets(), webRTC()],
 	connectionEncrypters: [noise()],
 	streamMuxers: [yamux()],
 	services: {
