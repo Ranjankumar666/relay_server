@@ -18,7 +18,7 @@ const relayServer = await createLibp2p({
 	connectionEncrypters: [noise()],
 	streamMuxers: [yamux()],
 	services: {
-		circuitRelay: circuitRelayServer({
+		relay: circuitRelayServer({
 			advertise: true,
 			reservations: true,
 		}),
