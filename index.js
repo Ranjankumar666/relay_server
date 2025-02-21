@@ -3,11 +3,11 @@ import { webSockets } from '@libp2p/websockets';
 import { yamux } from '@chainsafe/libp2p-yamux';
 import { createLibp2p } from 'libp2p';
 import { circuitRelayServer } from '@libp2p/circuit-relay-v2';
-const port = process.env['port'] || 4000;
+const port = process.env.PORT || 4002;
 
 const relayServer = await createLibp2p({
 	addresses: {
-		listen: [`/ip4/0.0.0.0/tcp/${port}/wss`],
+		listen: [`/ip4/0.0.0.0/tcp/${port}/ws`],
 	},
 	transports: [webSockets()],
 	connectionEncrypters: [noise()],
