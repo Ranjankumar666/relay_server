@@ -67,15 +67,10 @@ export const relayServerStart = async () => {
 
 	relayServer.addEventListener('peer:connect', (evt) => {
 		console.log(`✅ New peer connected: ${evt.detail.toString()}`);
-		console.log(evt.detail);
-
-		// console.log(relayServer.services.relay.reservations.size);
-		console.log(relayServer.services.relay.reservations.entries());
 	});
 
 	relayServer.addEventListener('peer:disconnect', (evt) => {
 		console.log(`❌ Peer disconnected: ${evt.detail.toString()}`);
-		relayServer.services.relay.reservations.delete(evt.detail);
 		// console.log(relayServer.services.relay.reservations.size);
 	});
 
