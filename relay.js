@@ -3,10 +3,7 @@ import { noise } from '@chainsafe/libp2p-noise';
 import { webSockets } from '@libp2p/websockets';
 import { yamux } from '@chainsafe/libp2p-yamux';
 import { createLibp2p } from 'libp2p';
-import {
-	circuitRelayServer,
-	circuitRelayTransport,
-} from '@libp2p/circuit-relay-v2';
+import { circuitRelayServer } from '@libp2p/circuit-relay-v2';
 import { identify } from '@libp2p/identify';
 import * as filters from '@libp2p/websockets/filters';
 import { autoNAT } from '@libp2p/autonat';
@@ -22,9 +19,6 @@ const relayServer = await createLibp2p({
 		listen: [`/ip4/0.0.0.0/tcp/${port}/ws`],
 	},
 	transports: [
-		circuitRelayTransport({
-			discoverRelays: 0, // Set to 1+ to act as a relay finder
-		}),
 		tcp(),
 		webSockets({
 			filter: filters.all,
@@ -41,14 +35,11 @@ const relayServer = await createLibp2p({
 	services: {
 		identify: identify(),
 		relay: circuitRelayServer({
-			advertise: true,
 			reservations: {
 				// Configure reservations for access control
-				maxReservations: 100,
 				applyDefaultLimit: true,
-				maxInboundStreams: 1000,
-				maxOutboundStreams: 1000,
 			},
+			hopTimeout: 120 * 1000,
 		}),
 		autoNAT: autoNAT(),
 	},
