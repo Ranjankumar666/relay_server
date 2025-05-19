@@ -22,7 +22,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start_dev": "node index.js",
-		"start_prod_go": "chmod +x ./proxy && ./proxy & node proxy.js",
+		"start_prod_go": "chmod +x ./proxy && ./proxy & node relay.js",
 		"start_prod": "node proxy.js"
 	},
 	"keywords": [],
