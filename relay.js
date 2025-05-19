@@ -10,12 +10,10 @@ import {
 import { identify } from '@libp2p/identify';
 import * as filters from '@libp2p/websockets/filters';
 import { autoNAT } from '@libp2p/autonat';
-import { webRTC } from '@libp2p/webrtc';
 import { tcp } from '@libp2p/tcp';
 import { loadOrCreateIdentity } from './loadOrCreateIdentity.js';
 
-const port = process.env.PORT || 8080;
-const railwayDomain = process.env.HOST; // Replace with actual Railway domain
+const port = process.env.RELAY_PORT || 8080;
 
 const relayServer = await createLibp2p({
 	// privateKey: id,
