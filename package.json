@@ -12,7 +12,6 @@
 		"@libp2p/webrtc": "^5.2.0",
 		"@libp2p/websockets": "^9.2.0",
 		"dotenv": "^16.4.7",
-		"http-proxy": "^1.18.1",
 		"libp2p": "^2.7.0",
 		"relay_server": "file:"
 	},
