@@ -29,6 +29,6 @@
 	"description": "",
 	"type": "module",
 	"engines": {
-		"node": ">18.17.0"
+		"node": "22.15.0"
 	}
 }
