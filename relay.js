@@ -5,10 +5,10 @@ import { yamux } from '@chainsafe/libp2p-yamux';
 import { createLibp2p } from 'libp2p';
 import { circuitRelayServer } from '@libp2p/circuit-relay-v2';
 import { identify } from '@libp2p/identify';
-import * as filters from '@libp2p/websockets/filters';
 import { autoNAT } from '@libp2p/autonat';
 import { tcp } from '@libp2p/tcp';
 import { loadOrCreateIdentity } from './loadOrCreateIdentity.js';
+import { createLibp2p } from '@lib';
 
 const port = process.env.RELAY_PORT || 8080;
 
@@ -18,30 +18,20 @@ const relayServer = await createLibp2p({
 	addresses: {
 		listen: [`/ip4/0.0.0.0/tcp/${port}/ws`],
 	},
-	transports: [
-		tcp(),
-		webSockets({
-			filter: filters.all,
-		}),
-	],
+	transports: [tcp(), webSockets()],
 	connectionEncrypters: [noise()],
-	streamMuxers: [
-		yamux({
-			maxMessageSize: 2048,
-			maxInboundStreams: 2048,
-			maxOutboundStreams: 2048,
-		}),
-	],
+	streamMuxers: [yamux()],
 	services: {
 		identify: identify(),
 		relay: circuitRelayServer({
-			reservations: {
-				// Configure reservations for access control
-				applyDefaultLimit: true,
-			},
 			hopTimeout: 120 * 1000,
 		}),
 		autoNAT: autoNAT(),
+	},
+	connectionGater: {
+		denyDialMultiaddr: () => false,
+		denyInboundRelayReservation: () => false,
+		denyOutboundRelayReservation: () => false,
 	},
 	connectionManager: {
 		dialTimeout: 60 * 1000,

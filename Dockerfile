@@ -1,28 +1,16 @@
-# Use official Node.js base image (with npm)
-FROM node:22-slim
+FROM node:20
 
-# Set the working directory
+RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# Copy Node.js dependencies
-COPY package*.json ./
-
-# Install Node.js dependencies
-RUN npm install
-
-# Copy app files and Go binary
 COPY . .
 
-RUN ls -la
-# Copy the script into the container
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Make Go binary and script executable
-RUN chmod +x ./proxy
+RUN chmod +x ./start.sh
 
-# Expose for documentation only (you can still override at runtime)
-EXPOSE 443 8080
+# Nginx
+EXPOSE 80
 
-# Start both services via script
-CMD ["bash", "-c", "./proxy & node index.js"]
-
-
+CMD ["./start.sh"]
